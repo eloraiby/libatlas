@@ -11,7 +11,8 @@ endif ()
 
 set(SRC_FILES
         stb/stb_rect_pack.c
-        image.c)
+        image.c
+        atlas.c)
 set(HEADER_FILES
         stb/stb_rect_pack.h
         atlas.h)
@@ -21,3 +22,4 @@ add_library(${PROJECT_NAME} SHARED ${SRC_FILES} ${HEADER_FILES})
 add_library(${PROJECT_NAME}s STATIC ${SRC_FILES} ${HEADER_FILES})
 
 add_executable(${PROJECT_NAME}-test ${SRC_FILES} main.c)
+target_link_libraries(${PROJECT_NAME}-test png)
