@@ -33,6 +33,14 @@ typedef struct {
 	void*			pixels;
 } image_t;
 
+typedef struct image_loader_state_s image_loader_state_t;
+
+typedef image_loader_state_t*	image_loader_init_fun_t();
+typedef image_t*		image_loader_fun_t(image_loader_state_t* state, uint8* bytes, uint32 count);
+
+uint32					image_register_loader(image_loader_init_fun_t initializer, image_loader_fun_t loader);
+void					image_unregister_loader(uint32 loader_id, image_loader_state_t* state);
+
 image_t*				image_allocate(uint32 width, uint32 height, PIXEL_FORMAT fmt);
 void					image_release(image_t* img);
 image_t*				image_load_png(const char* path);
@@ -50,7 +58,7 @@ typedef struct {
 	rect_t*			coordinates;
 } atlas_t;
 
-atlas_t*				image_atlas_make(uint32 image_count, const image_t **images);
-void					image_atlas_release(atlas_t* atlas);
+atlas_t*				atlas_make(uint32 image_count, const image_t **images);
+void					atlas_release(atlas_t* atlas);
 
 #endif	/* __ATLAS_LIB__H__ */

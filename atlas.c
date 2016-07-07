@@ -86,7 +86,7 @@ find_best_size(uint32 img_count, const image_t** imgs) {
 
 
 atlas_t*
-image_atlas_make(uint32 image_count, const image_t** images) {
+atlas_make(uint32 image_count, const image_t** images) {
 	stbrp_rect*	rects	= NULL;
 	stbrp_node*	nodes	= NULL;
 	stbrp_context	ctx;
@@ -165,7 +165,7 @@ image_atlas_make(uint32 image_count, const image_t** images) {
 }
 
 void
-image_atlas_release(atlas_t* atlas) {
+atlas_release(atlas_t* atlas) {
 	image_release(atlas->baked_image);
 	free(atlas->coordinates);
 	free(atlas);
