@@ -30,6 +30,20 @@ struct atlas_s {
 	rect_t*			coordinates;
 };
 
+const image_t*
+atlas_baked_image(const atlas_t* atlas) {
+	return atlas->baked_image;
+}
+
+uint32
+atlas_image_count(const atlas_t* atlas) {
+	return atlas->image_count;
+}
+
+rect_t
+atlas_image_coordinates(const atlas_t* atlas, uint32 img) {
+	return atlas->coordinates[img];
+}
 
 static stbrp_rect
 image_to_rect(uint32 id, const image_t* img) {

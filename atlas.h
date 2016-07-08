@@ -62,4 +62,8 @@ typedef struct atlas_s atlas_t;
 atlas_t*				atlas_make(uint32 image_count, const image_t **images);
 void					atlas_release(atlas_t* atlas);
 
+const image_t*			atlas_baked_image(const atlas_t* atlas);
+uint32					atlas_image_count(const atlas_t* atlas);
+rect_t					atlas_image_coordinates(const atlas_t* atlas, uint32 img);
+
 #endif	/* __ATLAS_LIB__H__ */
