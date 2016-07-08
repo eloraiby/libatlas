@@ -23,6 +23,28 @@
 #include <assert.h>
 #include <png.h>
 
+struct image_s {
+	uint32			width;
+	uint32			height;
+	PIXEL_FORMAT	format;
+	void*			pixels;
+};
+
+uint32
+image_width(const image_t* img) {
+	return img->width;
+}
+
+uint32
+image_height(const image_t* img) {
+	return img->height;
+}
+
+PIXEL_FORMAT
+image_format(const image_t* img) {
+	return img->format;
+}
+
 image_t*
 image_allocate(uint32 width, uint32 height, PIXEL_FORMAT fmt) {
 	uint32		ps	= 0;

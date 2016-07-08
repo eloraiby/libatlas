@@ -24,12 +24,18 @@
 
 #include "stb/stb_rect_pack.h"
 
+struct atlas_s {
+	image_t*		baked_image;
+	uint32			image_count;
+	rect_t*			coordinates;
+};
+
 
 static stbrp_rect
 image_to_rect(uint32 id, const image_t* img) {
 	stbrp_rect	rect;
-	rect.w	= (uint16) (img->width  + 1);
-	rect.h	= (uint16) (img->height + 1);
+	rect.w	= (uint16) (image_width(img)  + 1);
+	rect.h	= (uint16) (image_height(img) + 1);
 	rect.id	= (uint16)id;
 	rect.was_packed	= 0;
 	rect.x	= 0;
@@ -132,8 +138,8 @@ atlas_make(uint32 image_count, const image_t** images) {
 	/* copy the rectangle */
 	for( r = 0; r < image_count; ++r ) {
 		uint32	y;
-		uint32	h	= images[r]->height;
-		uint32	w	= images[r]->width;
+		uint32	h	= image_height(images[r]);
+		uint32	w	= image_width(images[r]);
 
 		assert( rects[r].was_packed );
 

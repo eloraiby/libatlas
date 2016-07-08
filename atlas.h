@@ -20,26 +20,28 @@
 #define __ATLAS_LIB__H__
 #include "c99-3d-math/3dmath.h"
 
+/*
+ * image.c
+ */
 typedef enum {
 	PF_A8,
 	PF_R8G8B8,
 	PF_R8G8B8A8
 } PIXEL_FORMAT;
 
-typedef struct {
-	uint32			width;
-	uint32			height;
-	PIXEL_FORMAT	format;
-	void*			pixels;
-} image_t;
+typedef struct image_s	image_t;
 
 typedef struct image_loader_state_s image_loader_state_t;
 
 typedef image_loader_state_t*	image_loader_init_fun_t();
-typedef image_t*		image_loader_fun_t(image_loader_state_t* state, uint8* bytes, uint32 count);
+typedef image_t*				image_loader_fun_t(image_loader_state_t* state, uint8* bytes, uint32 count);
 
 uint32					image_register_loader(image_loader_init_fun_t initializer, image_loader_fun_t loader);
 void					image_unregister_loader(uint32 loader_id, image_loader_state_t* state);
+
+uint32					image_width(const image_t* img);
+uint32					image_height(const image_t* img);
+PIXEL_FORMAT			image_format(const image_t* img);
 
 image_t*				image_allocate(uint32 width, uint32 height, PIXEL_FORMAT fmt);
 void					image_release(image_t* img);
@@ -52,11 +54,10 @@ color4_t				image_get_pixelf(const image_t* img, uint32 x, uint32 y);
 void					image_set_pixelb(image_t* img, uint32 x, uint32 y, color4b_t rgba);
 void					image_set_pixelf(image_t* img, uint32 x, uint32 y, color4_t rgba);
 
-typedef struct {
-	image_t*		baked_image;
-	uint32			image_count;
-	rect_t*			coordinates;
-} atlas_t;
+/*
+ * atlas.c
+ */
+typedef struct atlas_s atlas_t;
 
 atlas_t*				atlas_make(uint32 image_count, const image_t **images);
 void					atlas_release(atlas_t* atlas);
