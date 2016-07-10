@@ -31,11 +31,11 @@ typedef enum {
 
 typedef struct image_s	image_t;
 
-typedef color4b_t		image_initb_fun_t(void* state, uint32 x, uint32 y);
-typedef void*			image_foldb_fun_t(void* state, uint32 x, uint32 y, color4b_t col);
+typedef color4b_t		(*image_initb_fun_t)(void* state, uint32 x, uint32 y);
+typedef void*			(*image_foldb_fun_t)(void* state, uint32 x, uint32 y, color4b_t col);
 
-typedef color4_t		image_initf_fun_t(void* state, uint32 x, uint32 y);
-typedef void*			image_foldf_fun_t(void* state, uint32 x, uint32 y, color4_t col);
+typedef color4_t		(*image_initf_fun_t)(void* state, uint32 x, uint32 y);
+typedef void*			(*image_foldf_fun_t)(void* state, uint32 x, uint32 y, color4_t col);
 
 uint32					image_width(const image_t* img);
 uint32					image_height(const image_t* img);
