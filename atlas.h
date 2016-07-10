@@ -31,35 +31,30 @@ typedef enum {
 
 typedef struct image_s	image_t;
 
-typedef struct image_loader_state_s image_loader_state_t;
+typedef color4b_t		image_initb_fun_t(void* state, uint32 x, uint32 y);
+typedef void*			image_foldb_fun_t(void* state, uint32 x, uint32 y, color4b_t col);
 
-typedef image_loader_state_t*	image_loader_init_fun_t();
-typedef image_t*				image_loader_fun_t(image_loader_state_t* state, uint8* bytes, uint32 count);
-
-uint32					image_register_loader(image_loader_init_fun_t initializer, image_loader_fun_t loader);
-void					image_unregister_loader(uint32 loader_id, image_loader_state_t* state);
+typedef color4_t		image_initf_fun_t(void* state, uint32 x, uint32 y);
+typedef void*			image_foldf_fun_t(void* state, uint32 x, uint32 y, color4_t col);
 
 uint32					image_width(const image_t* img);
 uint32					image_height(const image_t* img);
 PIXEL_FORMAT			image_format(const image_t* img);
 
-image_t*				image_allocate(uint32 width, uint32 height, PIXEL_FORMAT fmt);
+image_t*				image_initb(uint32 width, uint32 height, PIXEL_FORMAT fmt, void* initial_state, image_initb_fun_t filler);
+image_t*				image_initf(uint32 width, uint32 height, PIXEL_FORMAT fmt, void* initial_state, image_initf_fun_t filler);
+
 void					image_release(image_t* img);
-image_t*				image_load_png(const char* path);
 
-/* TODO: these are slow to use for iteration, best case would be more granular function table */
-color4b_t				image_get_pixelb(const image_t* img, uint32 x, uint32 y);
-color4_t				image_get_pixelf(const image_t* img, uint32 x, uint32 y);
-
-void					image_set_pixelb(image_t* img, uint32 x, uint32 y, color4b_t rgba);
-void					image_set_pixelf(image_t* img, uint32 x, uint32 y, color4_t rgba);
+void*					image_foldb(const image_t* img, void* initial_state, image_foldb_fun_t f);
+void*					image_foldf(const image_t* img, void* initial_state, image_foldf_fun_t f);
 
 /*
  * atlas.c
  */
 typedef struct atlas_s atlas_t;
 
-atlas_t*				atlas_make(uint32 image_count, const image_t **images);
+atlas_t*				atlas_make(const image_t **images, uint32 image_count);
 void					atlas_release(atlas_t* atlas);
 
 const image_t*			atlas_baked_image(const atlas_t* atlas);
